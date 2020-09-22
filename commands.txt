@@ -1,0 +1,74 @@
+Sudo Password: The usual :D
+
+
+
+-- Useful Hints --
+
+- Use ><file> to write output from stdout to file { NB: use >><file> to append }and <<file> to get stdin from file
+
+- Can press tab to autocomplete any command line statement
+
+- Specify the -r flag for cp, rm, grep to recursively act on many files in one command 
+
+- Levels of Help: whatis -> --help -> man
+
+- Use | to establish a pipe between multiple commands. The output for the first becomes the input for the next
+
+- Add & after a command to execute it in background
+
+- Location of Root: C:\Users\Jiles Denham\AppData\Local\Packages\Canonical*\LocalState\rootfs
+
+- Arithmetic: Variable assignment can be done on the command line, e.g. $ <var>=<int>. Then use $ echo $[$<var1> + $<var2>] to conduct arithmetic
+
+
+-- Useful Commands --
+
+$ touch <filename> [make a new file called filename]
+
+$ history [ To show a list of every command ever used ]
+
+$ find <path> -name <file_name> [ Search for a file in a given path. Can also specift file type ]
+
+$ grep [--flags] <pattern> path [ -r for all files, -n to show line.  Can alternaitvely use rgrep instead of specifying -r ]
+
+$ rm <dir> -r [ Removes the directory and all containing files ]
+
+$ strace <command> [ Lists all system calls made by execution of a command ]
+
+$ diff <file1> <file2> [ Compare two text files line by line ]
+
+$ dash <file.txt> [ Uses the text contained in file.txt as the command ]
+
+$ find . -name "<file_name>" | xargs wc -l [ Counts the the lines of all files with the given file name ]
+
+$ ls -l <file_name> [ Lists allowed permissions for specified file ]
+
+$ ls -sh [ Lists all files along with their size ]
+
+$ chmod <bitcode> <file_name> [ Modifies permissions of a file according to the bitcode, 755 for full access for file owner ]
+
+$ cat <file1> >> <file2> [ Writes entirely of <file1> to end of <file2> ] 
+
+
+-- SSH & Server Commands --
+
+$ ssh <username>@<host_ip> -i <private_key_path> [ Initiates a remote terminal session with the specified server. Login as root if first time ]
+
+$ ~. [ Exits remote ssh session ]
+
+$ su - <username> [ If currently logged in as root, switches user to the specified one ]
+
+$ scp -i <private_key_path> <file> <username>@<host_ip>:<remote_directory> [ Copies the specified local file to specified directory in remote server. Can also use -r ] 
+
+
+-- GDB Notes -- 
+
+- Remember to compile with -g flag
+
+- backtrace [ Backtraces the stack to see which functions your in ]
+
+- break <function_name>OR<file_name:line-number> to establish a breakpoint
+
+- n [ goes to next line ]
+
+

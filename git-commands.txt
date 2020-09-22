@@ -1,0 +1,44 @@
+-- Git Notes --
+
+<--- Regular Workflow --->
+  $ git add * [ ]
+  $ git commit -m "<msg>" [ can also add -a to only commit existing files that we changed/removed, but not newly created files ]
+  $ git push
+
+
+<--- Branching --->
+  $ git branch [ Displays all local branches ]
+  $ git branch -r [ Displays all remote branches ]
+  $ git branch <branch_name> [ Creates a new branch with specified name ]
+  $ git checkout <branch_name> [ Switched to branch <branch_name>]
+  $ git --set-upstream origin <branch_name> [ Sets the upstream remote branch to the origin {lol}]
+
+<--- Deleting Branches --->
+  $ git branch -d <branch_name> [ Deletes local branch of specified name ]
+  $ git push origin --delete <branch_name> [ Deletes remote branch of specified name ]
+
+
+<--- Merging --->
+  $ git checkout <branch_to_merge_to> [ Double check and make sure to run this before you merge! ]
+  $ git merge <branch_to_merge_in> [ Provided that you don't have uncomitted changes, should merge them together ]
+
+
+<--- Undoing changes --->
+$ git reset [ Wipes the any `git add .` made if you're yet to commit them ]
+$ git reset --hard HEAD~1 [ Wipes the previous commit ]
+
+
+<--- Misc Commands --->
+  $ git fetch [ Essentially a refresh, updates your local environment with any changes made in remote without pulling anything ]
+  $ git diff [ Shows all changes in the working tree not yet staged for the next commit. Use --cached to see difference between staged changes and last commit ]
+  $ git log [ Shows list of previous commits for current branch ]
+  $ git reflog [ Shows a history of all git commands (commits, branch changes etc.) and their refrences ]
+
+
+<--- Useful Analogies/Tips --->
+
+upsteam -> upload | downstream -> download
+
+origin/<branch_name> specifies a remote branch
+
+

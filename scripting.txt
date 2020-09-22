@@ -1,0 +1,20 @@
+~~ COMPARISONS ~~
+
+{Numeric || String}
+
+Less Than: -lt || <
+Greater Than: -gt || >
+Equality: -eq || =
+Not Equal: -ne | !=
+Less or Equal: -le || N/A
+Greater or Equal: -ge || N/A
+
+0 evaluates to TRUE, 1 evaluates to FALSE
+
+~~ FUNCTION PARAMETERS ~~
+
+$1 for first argument, $2 for second argument, $n for nth argument
+$# for total number of arguments
+$* for all arguments in order
+
+
