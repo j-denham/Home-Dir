@@ -22,6 +22,6 @@ elif [ $day == "Friday" ]; then
   echo -e "$sched  12:00-13:00 -> Declarative Lecture\n  14:00-17:00 -> Cosmos Prac\n\n"
 fi
 
-echo -e "Deadlines\n -> Declarative Assignment [Prolog] 18/9\n -> Models of Comp Assignment 1 20/9\n -> Cosmos Midsem 24/9\n"
-echo -e "Backlog\n -> Set up backend for customisable portfolios\n -> Django practice, read docs on generic views\n -> Prolog practice\n"
+echo -e "Deadlines\n -> Models of Comp Assignment 2 Due 25/10\n -> Models of Comp WS4 Due 18/10\n\n"
+echo -e "Backlog\n -> Set up API call for home portfolio upon login of a User\n -> Catch up on Declarative and Models of Comp\n -> Do some styling for the Portfolio page\n"
 # Add Deadlines when they come

@@ -1,0 +1,77 @@
+List Operators
+  let (x:xs) = [1,2,3]
+  y@(x:xs) = x:y
+  Output: [1,1,2,3]
+  @ assigns a name to a pattern so that is may be used in other parts of the function
+
+Higher Order Programming
+
+  Folds
+    
+    Folds are a class of higher order reduction operation. There a three main folds - left, right, and balanced.
+    
+    Left Fold
+      foldl :: (v -> e -> v) -> v -> [e] -> v
+      foldl _ base [] = base 
+      foldl f base (x:xs) =
+        let newbase =  f base x in
+        foldl f newbase xs  
+
+      - foldl will take a function f, a base value, and a list of elements, and will traverse the list left
+        to right applying f to each pair of elements. Examples of foldl are shown below:
+      
+      productl :: Num a => [a] -> a
+      productl = foldl (*) 1
+      
+      concatl :: [[a]] -> [a]
+      concatl foldl (++) []
+    
+    Right Fold
+      foldr :: (e -> v -> v) -> v -> [e] -> v
+      foldr _ base [] = base
+      foldr f base (x:xs) =
+        let fxs = foldr f base xs in
+        f x xs
+
+      - foldr will take a function f, a base value, and a list of elements, and will traverse the list right 
+        to left applying f to each pair of elements. Due to laziness, foldr is more efficient than foldl.
+        Examples of foldr are shown below:
+
+      productr = foldr (*) 1
+      concatr = foldr (++) []
+
+    Balanced Fold
+      balanced_fold :: (e -> e -> e) -> e ->[e] -> e
+      balanced_fold _ b [] = b
+      balanced_fold _ _ (x:[]) = x
+      balanced_fold f b l@(_:_:_) =
+        let
+          len = length l
+          (half 1, half2) = splitAt (len `div` 2) l
+          value1 = balanced_fold f b half1
+          value2 = balanced_fold f b half2
+        in
+          f value1 value2
+
+      - balanced_fold with traverse a list pairwise left to right, applying f to each pair in the list, then to
+        pairs of pairs, and so on.
+
+    Folds with no Identity
+      Can use both foldl1 or foldr1 if a fold must be done without an identity/base value. This makes sense for
+      applying functions such as min or max, that should return an error if the list is empty. Both of these
+      folds have type signature (a -> a -> a) -> [a] -> a. Examples shown below:
+
+      maximum = foldr1 max
+      minimum = foldr1 min
+      
+   Flex Fold Examples
+    const a -> b -> a
+    const a b = a
+    length = foldr((+) . const 1) 0
+
+    map f = foldr ((:) . f) []   
+
+    snoc = [a] -> a -> [a]
+    snoc tail head = head:tail
+
+    reverse = foldl snoc []
