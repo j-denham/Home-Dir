@@ -66,7 +66,7 @@
 * Ginger (Roughly cut)
 * Corn
 * 2L chicken stock
-* Patis, lemon chili
+* Patis, lemon 
 * Peppercorn, whole or grind
 * Green beans
 * Fresh chilli
@@ -81,5 +81,41 @@
 * Wash and chop bok choy, put in at the last 2-5 minutes
 * Serve with patis, lemon, fresh chili 
 
+
+## Aroz Caldo
+
+### Ingredients
+* Chicken Breast
+* Bit more than 1 cup of Risotto Rice
+* 2 Onions
+* Lots of Ginger
+* Lots of Garlic
+* 2L Chicken Stock
+* Fresh Chilli
+* Spring Onion
+* Dozen Eggs
+* Patis, lemon, sesame oil
+
+### Method
+
+* Roughly cut Ginger, Garlic, Chilli, and Onion, then put in food processor so its finely chopped
+* Cut chicken into small chunks
+* Fry chicken in a seperate pan and saute aromatics in slow cooker. Continuously drain liquid from the chicken and add onion to sauted aromatics
+* Once both batches are cooked, chuck both in slow cooker, add stock and risotto rice. Set slow cooker on high for 4 hours
+* Just before its finished, boil 3 eggs and chop the spring onion
+* Serve with boiled egg, spring onion, lemon, fish sauce, sesame oil
+
+
+## Boiled Eggs
+
+### Ingredients
+* Eggs
+* Vinegar
+* Salt
+
+### Method
+* Boil water, then add Salt and Vinegar to water
+* Poke a small hole in each egg, and put in saucepan once water is boiling
+* Leave for 8 mins then peel the eggs. Make sure to get the membrane
 
 

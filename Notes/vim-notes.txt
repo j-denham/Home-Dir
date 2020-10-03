@@ -12,6 +12,8 @@ gg/G -> start of file/end of file
 
 gt/gT -> prev tab/next tab
 
+m<any_key>/'<any_key> -> Sets a mark at the cursor's location / Jumps back to the set mark
+
 
 ~~ INSERT MODE SHORTCUTS ~~
 
@@ -21,18 +23,38 @@ a -> Insert mode after moving right 1 character.
 
 I/A -> Insert mode at the first character of a line/Insert mode after the last character of the line
 
+<number>s/S -> deletes <number> of chars in front of cursor, and enters insert mode / deletes current line, and enters insert mode
 
-~~ UNDO, DELETE, YANK & PASTE ~~
+ci<delimiter> -> Clears out the contents within <delimiter>, and puts you in insert mode inside
+
+ca<delimter> -> Clears out the contents with <delimiter>, the <delimiter> themselves, and puts you in insert mode
+
+
+~~UNDO, DELETE, YANK & PASTE ~~
 
 u -> undo changes
 
 dd/yy -> delete line/yank line
+
+dw/yw -> delete current word / yank current word
 
 p/P -> paste a line below/paste a line above
 
 U -> undo all changes on one line
 
 CTRL-R -> redo changes which were undone
+
+di<delimiter> -> Deletes the contents within <delimiter>
+
+da<delimiter> -> Deletes the contents with <delimiter>, and the <delimiter> themselves
+
+<number>dj/<number>dk -> deletes current line and <number> lines below / deletes <number> lines above and current line
+
+<number>yj/<number>yk -> yanks current line and <number> lines below / yanks <number> lines above and current line
+
+<number>dh/<number>dl -> deletes <number> of chars behind current / deletes <number> of chars in front of current
+
+<number>yh/<number>yl -> yanks <number> of chars behind current / yanks <number> of chars in front of current
 
 
 ~~ SEARCHING ~~
@@ -63,9 +85,9 @@ d -> delete
 
 Quit
   :q -> quit
-  :q -> quit without writing
+  :q! -> quit without writing
   :wq -> Write and exit
-  :wq {file} -> Write to {file}, and exit always
+  :wq! {file} -> Write to {file}, and exit always
 
 Edit
   :e -> refresh
@@ -81,7 +103,7 @@ File Exploration
 
 ~~ MISC ~~
 
-CTRL-L -> Reset Screen, fixes aids red background bug
+CTRL-L -> Reset Screen, fixes shitty red background bug
 
 :<Start_Line>,<End-Line>s/^/<Symbol> -> Inserts <Symbol> at the start of all lines from <Start> to <End>
 

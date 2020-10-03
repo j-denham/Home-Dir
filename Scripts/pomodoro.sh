@@ -1,5 +1,15 @@
 #!/usr/bin/bash
 
+# This script relies on a checkmarks.txt file. Before using this script,
+# make sure :24 dir is the correct path to the supplied checkmarks.txt,
+# then you should be ready to go! I usually just run this in a seperate
+# little terminal window
+
+# One weird thing about this script is that it spawns empty files with the name
+# of yesterday and today's date in the current directory. I recommend defining an
+# alias rmdates="rm 2020-*", just make sure you don't have any other files that match
+# that regex >:)
+
 function countdown(){
   date1=$((`date +%s` + $1));
   i=0

@@ -24,6 +24,7 @@
 
 
 <--- Undoing changes --->
+$ git checkout -- . [ Rewinds to the most recent commit ]
 $ git reset [ Wipes the any `git add .` made if you're yet to commit them ]
 $ git reset --hard HEAD~1 [ Wipes the previous commit ]
 

@@ -1,0 +1,205 @@
+~ Basic Math ~
++, -, *, `elem`, ^, / { float division }, `div` { integer division }
+
+~ Function Syntax ~
+
+f(x) = f x
+f(x, y) = f x y
+f(g(x)) = f (g x)
+f(x, g(y)) = f x (g y)
+f(x)g(y) = f x * g y
+function composition = f . g x
+f(g(x)) = f $ g x
+lambda function f x = \x -> <declaration>
+
+  --- Partial Application --- 
+
+    Take for example the function below:
+    is_longer :: Int -> String -> Bool
+    is_longer limit x = length x > limit
+
+    We can apply partial application to only given the limit argument, and then apply it to a higher order function such as filter. This allows for more general code.
+    filter (is_longer 4) ["ab", "abcd", "abcdef"]
+
+    This can also be done with infix operators by wrapping it in parentheses. For example:
+    map (*3) [1, 2, 3] = [3, 6, 9]
+    map (`mod` 5) [3, 4, 5, 6, 7] = [2, 1, 0, 5, 5]
+    map {5 `mod`) [3, 4, 5, 6, 7] = [0, 1, 2, 0, 1]
+
+  --- Function Composition ---
+  
+    Functions can be composed so the the output of the second becomes the input for the first. For example:
+    minimum = head . sort { The head of a sorted list will always be the minimum }
+    maximum = head . reverse . sort { The head of a reversed sorted list will always be the maximum }
+    Function composition can be seen as analogous to a unix pipeline
+
+~ Types ~
+
+  <Function> :: <Type> 
+  <Function> :: <T1> -> <T2> -> <T3> { <Function> accepts input of type <T1> and <T2> and returns value with type <T3> }
+  <Function> :: (<T1> -> <T2>) -> <T3> { <Fucntion> accepts input of a function that accepts <T1> as input that returns <T2>, and finally returns <T3>.
+  Known as a higher order function }
+  map :: (a -> b) -> [a] -> [b] { a and b are type variable, and will match any type }
+  <Function> :: Ord a => [a] -> a { => syntax declares the type class of a. On the left of the => is the type qualifier} 
+
+  --- Type Classes ---
+  
+  Ord a { Collection of ordered types. Validates <, >, == and \= }
+  Num a { Collection of numeric types, validates addition, multiplication, and some other numerical operations }
+  Eq a { Collection of types where == and \= are valid }
+  Show { Collection of types where a conversion to a string representation is valid }
+
+  --- Type Definitions & Synonyms ---
+
+  type Message = (String, Int) { Message is a type synonym. These can be declared at the top of a file, similar to a typedef }
+  data MyBool = MyTrue | MyFalse { Defines a _new_ type. All possible values are on the right, and are seperated by a vertical bar }
+  data Point = Pt Float Float { Data constructor that defines a type Point that can also be referenced by the synonym Pt for pattern matching }
+  data List = ListNode Int List | ListEnd { A recursively defined type. ListNode is of type List which carries and Int, and another List, with ListEnd as a constant } 
+  data List a = ListNode a (List a) | ListEnd { Type constructor variant of above. Now type a must be specified in constructor to be used for the entire definition }
+  data MyBool = MyTrue | MyFalse
+    deriving (Eq, Show) { Dictates which type classes the newly defined type belongs to }
+   
+
+
+~ List Operators ~
+  
+  head, tail, sum, length, product, reverse, maximum, minimum
+  [1,2,3,4,5]!!2 = 3
+  take 3 [1,2,3,4,5] = [1,2,3]
+  drop 3 [1,2,3,4,5] = [4,5]
+  [1,2,3]++[4,5] = [1,2,3,4,5]
+  2 `elem` [1,2,3,4,5] = True
+  null [] = True
+  [1..5] = [1,2,3,4,5] { Works for chars too }
+  [2,4..10] = [2,4,6,8,10]
+
+
+  --- Import Data.List for the following ---
+  
+  group [1,1,3,3,2,1] = [[1,1],[3,3],[2],[1]]
+  nub [1,1,3,3,2,1] = [1,3,2] { Removes a duplicates }
+  delete 3 [2,3,4,3] = [2,4,3] { Removes first occurence of x from list } 
+  [1,2,3,2] \\ [2,1] = [3,2] { deletes each element of one list from another } 
+
+
+~ Other Random and Helpful Functions ~
+
+NB: Consult Tour of the Haskell Prelude! has completely documentation of all default functions
+not :: Bool -> Bool { Negates the given boolean }
+zipWith :: (a -> b -> c) -> [a] -> [b] -> [c] { Zips two lists together whilst applying the function argument element-wise }
+
+
+
+~ List Comprehensions ~
+
+  [x^2 | x <- [1..5]] = [1,4,9,16,25] { Form [Expression | Generator] }
+  [x^2 | x <- [1..12], even x] = [4,16,36,64,100,144] { Form [Expression | Generator, Filter]. Filter must be a Boolean expression. Generator, Filter pairs can also be
+                                                        added one after another, with the resulting behaviour akin to a nested for loop }
+  [x*y | (x, y) <- zip [1,2,3] [4,5,6]] = [4,10,18] { A more complex list comprehension using zip to iterate over two lists concurrently }
+  [x | x <- [1..4], y <- [x..5], even (x+y)] = [1,1,1,2,2,3,3,4] { Subsequent Generators and Filters have scope of variables from previous Generators }
+
+
+~ Pattern Matching ~
+  
+  [] -> Empty List
+  [x] -> Singleton List
+  (x:xs) -> Head:Tail List
+  _ -> Matches Anything
+
+  --- As Pattern ---
+
+    let (x:xs) = [1,2,3]
+    y@(x:xs) = x:y
+    Output: [1,1,2,3]
+    @ assigns a name to a pattern so that is may be used in other parts of the function
+
+
+~ Higher Order Programming ~
+
+  --- Folds ---
+    
+    Folds are a class of higher order reduction operation. There a three main folds - left, right, and balanced.
+    
+    Left Fold
+      foldl :: (v -> e -> v) -> v -> [e] -> v
+      foldl _ base [] = base 
+      foldl f base (x:xs) =
+        let newbase =  f base x in
+        foldl f newbase xs  
+
+      - foldl will take a function f, a base value, and a list of elements, and will traverse the list left
+        to right applying f to each pair of elements. Examples of foldl are shown below:
+      
+      productl :: Num a => [a] -> a
+      productl = foldl (*) 1
+      
+      concatl :: [[a]] -> [a]
+      concatl foldl (++) []
+    
+    Right Fold
+      foldr :: (e -> v -> v) -> v -> [e] -> v
+      foldr _ base [] = base
+      foldr f base (x:xs) =
+        let fxs = foldr f base xs in
+        f x xs
+
+      - foldr will take a function f, a base value, and a list of elements, and will traverse the list right 
+        to left applying f to each pair of elements. Due to laziness, foldr is more efficient than foldl.
+        Examples of foldr are shown below:
+
+      productr = foldr (*) 1
+      concatr = foldr (++) []
+
+    Balanced Fold
+      balanced_fold :: (e -> e -> e) -> e ->[e] -> e
+      balanced_fold _ b [] = b
+      balanced_fold _ _ (x:[]) = x
+      balanced_fold f b l@(_:_:_) =
+        let
+          len = length l
+          (half 1, half2) = splitAt (len `div` 2) l
+          value1 = balanced_fold f b half1
+          value2 = balanced_fold f b half2
+        in
+          f value1 value2
+
+      - balanced_fold with traverse a list pairwise left to right, applying f to each pair in the list, then to
+        pairs of pairs, and so on.
+
+    Folds with no Identity
+      Can use both foldl1 or foldr1 if a fold must be done without an identity/base value. This makes sense for
+      applying functions such as min or max, that should return an error if the list is empty. Both of these
+      folds have type signature (a -> a -> a) -> [a] -> a. Examples shown below:
+
+      maximum = foldr1 max
+      minimum = foldr1 min
+      
+   Flex Fold Examples
+    const a -> b -> a
+    const a b = a
+    length = foldr((+) . const 1) 0
+
+    map f = foldr ((:) . f) []   
+
+    snoc = [a] -> a -> [a]
+    snoc tail head = head:tail
+
+    reverse = foldl snoc []
+
+
+~ Modules ~
+
+  import <module_name> { A module is a collection of functions and type definitions that can be used by other Haskell programs }
+  Prelude { The default import for Haskell that contains all base functionality. A Tour of the Haskell Prelude is a good reference }
+  module <File_Name>
+  where { all functions declared below 'where' are available if <File_Name> is imported as module. All imports should be done after 'where'}
+
+
+~ GHCI & Debugging ~
+
+  :? { Prints list of all commands. There's a lot, so best to clear beforehand }
+  :l <File.hs>  { Loads <File.hs> into GHCI, ready to be called } 
+  :break <line> { Sets breakpoint at <line> }
+  :print <var> { Prints value of <var> at current break }
+  :step { Steps to the next function call? Not too sure about fine details on this }
+  :t <Function> { prints the type of the specified function }

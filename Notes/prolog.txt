@@ -1,0 +1,136 @@
+~~ Basic Syntax ~~
+
+% -> Denotes comments
+
+. -> All predicates must end with .
+
+Parent(X, jiles) -> X denotes a variable. All variables must start with a capital letter, or an underscore
+
+X = 6*7. -> The = sign is solely a unifier, and will not evaluate a numerical expression
+
+X is 6*7. -> The built in is/2 predicate evaluates expressions. Note that it is infix. Also, the right hand term must be ground. 
+
++|-|*|/|//|mod -> Add|Subtract|Times|Divide|Float Division|Integer Division|Modulo {Arithmetic Only}
+
+<|=<|>|>=|=:=|=\= -> Less|Less or Equal|Greater|Greater or Equal|Equal|Not Equal {Arithmetic Only}
+
+
+~~ Queries ~~
+
+enrolled(S, math). -> Prints all S, denoting students, who are enrolled in math
+
+enrolled(S, math), enrolled(S, logic). -> , denotes conjunction, thus all S enrolled in both math AND logic
+
+enrolled(S, math) ; enrolled(S, logic). -> ; denotes disjunction, thus all S enrolled in either math OR logic
+
+enrolled(S, math), \+ enrolled(S, logic). -> \+ denotes negation, thus all S enrolled in math but NOT logic. Can also use X \= Y
+
+
+~~ Pattern Matching ~~
+
+enrolled(claire, _). -> _ matches anything, but the result will not be printed
+
+[X | Y] -> Matches Head|Tail, just like Haskell, with the empty list as the last element 
+
+[X1, X2, | Y] -> Matches 1stElement, 2ndElement | Tail
+
+
+~~ Predicates: Rules, Facts & Clauses ~~
+
+/* RULES and FACTS are two different types of CLAUSES. A PREDICATE can be defined with any number of clauses (either or both kinds), intermixed in any order */
+
+enrolled(jiles, comp30020). -> Denotes a FACT, that jiles is enrolled in comp30020. A combination of facts describes a RELATION
+
+grandparent(X,Z) :- parent(X, Y), parent(Y, Z) -> denotes a RULE, with the form Head :- Body. Head has the form of a fact, and Body has the form of a 
+(possibly compound) query. The :- is read as 'if', with Head being true if the Body is. Rules can also be dfined recursively like so:
+
+    ancestor(Anc, Desc) :- 
+      parent(Anc, Desc).
+    ancestor(Anc, Desc) :- 
+      parent(Parent, Desc),
+      ancestor(Anc, Parent).
+
+  -- List Processing Predicates -- 
+    
+    append(X, Y, Z)  { Y is appended to X to make Z. Note the following examples }
+      append([1,2], List, [1,2,3,4,5]). { List = [3,4,5]. }
+      Front = [_,_], append(Front, Back, [1,2,3,4,5]). { Front = [1,2], Back = [3,4,5]. }
+
+    length(List, Len) { Self explanatory, but has interesting implementations }
+      length(List, 3). { List = [_7224, _7230, _7236]. Represents a list of unbound variables, so a list of anything that satisfies the pattern }
+      take(N, List, Front) :-
+        length(Front, N),
+        append(Front, _, List). { Same functionality as take in Haskell }
+    
+    member(X, List). { Holds when X is a part of List }
+
+    select(X, List1, List2). { Akin to member, except that everything in List2 is everything in List1 other than X }
+
+    nth0(Index, List, Elem) { Like !! in Haskell, this fints the nth element of List, where n counts from 0. Some examples below }
+      nth0(3, [a,b,c,d,e], Elem). { Elem = 3 }
+      nth0(N, [a,b,c], Elem). { N = 0, Elem = a ; N = 1, Elem = b ; etc... }
+
+  -- If-then-else --
+
+    factorial(N, F) :-
+      ( N =:= 0 ->
+        F = 1
+      ; N > 0,
+        N1 is N - 1,
+        factorial(N1, F1),
+        F is F1 * N
+      ).
+
+    { The -> is treated like a conjunction, except that when it is crossed all other alternatives are forgotten }
+    { Conversely, if the goal before the -> fails, then the goal after the ; is tried. However, if-then-else should be avoided if you have a choice }  
+
+
+~~ Terms ~~
+
+/* Prolog is dynamically typed. All prolog data known as terms. Prolog has a set of primitive types known as *atomic terms*, covering only ints, floats and *atoms* */
+
+/* Atoms can be written with a lowercase letter and any succeeding symbols to denote it */
+
+/* Two other types of terms, variables and compound terms */
+
+
+~~ Tips and Tricks ~~
+
+Put \+ <Goal> or X \= <Goal> towards the end or your program (See execution order slide Lec 1). This ensures that all variables are bound before negated goal 
+is executed
+
+
+  -- Documenting Modes --
+  
+  Prolog has a convention for documenting in which modes a predicate can be expected to work:
+    % + indicates and input argument; this means the argument is normally expected to be bound when the predicate is called
+    % - indicates an output argument; this means the argument is normally unbound when the predicate is called, and if it bound, will be unified withe output
+    % ? indicates that predicate may be input, output, or both
+  For example, we might document append/3 like this
+    % append(+List1, +List2, -List3)
+    % append(-List1, -List2, +List3)
+  or alternatively:
+    % append(?List1, ?List2, ?List3)
+
+
+~~ Debugger and Terminal ~~
+
+To cancel an infinite loop, hit 'CTRL C' follow by 'a' to exit
+
+To go into debugging mode, enter 'trace', and turn it off with 'nodebug'
+
+Useful Debugger Commands [Debugger Mode]:
+  ?- h [ Display Help]
+  ?- c [ Creep to the next port, can also use space ]
+  ?- s [ Skip over goal, go straight to exit or fail port ]
+  ?- r [ Back to initial call port of goal, undo all bindings done since starting it ]
+  ?- a [ Abort whole session ]
+  ?- + [ Set breakpoint on this pred ]
+  ?- - [ Remove a breakpoint ]
+  ?- l [ Leap to next breakpoint ]
+  ?- b [ Pause the debugging session and enter a 'break level' ]
+
+Useful Debugger Commands [Regular Prompt]:
+  ?- spy(PredName) [ Place a breakpoint at PredName. Note that PredName can also be a name/arity pair if there are two predicates with same name but different arity ]
+  ?- nospy(PredName) [ Removes breakpoint at PredName ]
+  ?- debug [ Turn on debugger and leap to first breakpoint ]

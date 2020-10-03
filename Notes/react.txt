@@ -1,0 +1,59 @@
+~ React Concepts ~
+
+-- Rendering --
+
+A re-render will only be triggered if a component's state changes. State can change from a change in props, or a direct setState change. Keep in mind that on each
+render, the whole component/function is re-run, including function definitions, variable creation/assignment etc. Even if the state variable that's changed isn't 
+used in the rendered JSX, the component will be re-rendered regardless. 
+
+-- Controlled vs Uncontrolled Components --  
+
+Some HTML Elements, such as input, manage their own internal state rather than deriving it from its React component. To change this behaviour so it derives its state
+from the React component's state, declare a value attribute equal to the React component's interal state. For example:
+const [value, setValue] = setState('Hello World');
+<input type="text" onChange={handleChange}/> {Uncontrolled, will show a blank input field when rendered}
+<input type="text" value={value} onChange={handleChange}/> {Controlled, will show 'Hello World' in the input field when rendered}
+
+
+~ Hooks ~
+
+
+// Accepts two arguments, a function and a dependency array
+useEffect(() => {
+  // do stuff in here before the return
+  return () => {} // function to undo our stuff from above when component unmounts 
+}, []) // dependency array of things to watch for changes on
+
+Thus useEffect will be triggered every time something in the dependency array changes. Set dependency array to [] if you only want it to be triggered on initial render.
+Setting state with useState within useEffect can lead to stale closures. State changes in useEffect will also not take place until AFTER the initial render of the
+component. There always do checks for the initial state value in the initial render.
+
+
+~ Web API and HTML Concepts ~
+
+-- The DOM --
+
+The Domain Object Model is an architecture that describes the structure of a document (what makes up a webpage). A document in turn consits of a hierarchical tree of
+Nodes, with each Node storing some HTML Element. The Node interface provides methods for creating, deleting and organising Nodes within the DOM, with the Element 
+interface providing the methods to actually represent visual content through HTML of an XML vocabulary such as SVG (Scalable Vector Graphics). 
+
+Each HTML Element is represented by the HTMLElement interface. The HTMLElement class, in turn, implementes Node, so every Element is also a Node but not the other way
+around. Since the HTMLElement interface is generic, providing only core functionality common to all Elements, the HTMLElement class is subclassed in order to provide
+functionality for that specific Element, e.g. HTMLInputElement, or HTMLButtonElement
+
+
+~ Hacky Bullshit Workarounds ~
+
+-- Typescript complaing about 'couldn't find declaration file for module X'? --
+
+- Make a file, lets say types.d.ts, and add the following line: declare module "*";
+
+- write, don't forget to also edit .gitignore with !types.d.ts
+
+
+~ Things to Learn ~
+Flexbox
+grid
+margin
+Padding
+font stuff
